@@ -14,6 +14,8 @@ namespace CoreEscuela.Entidades
 
         public TiposEscuela TipoEscuela { get; set; }
 
+        public Curso[] Cursos { get; set; }
+
         //Constructor corto con asignacion por tuplas
         public Escuela(string nombre, int anoDeCreacion) => (Nombre, AnoDeCreacion) = (nombre, anoDeCreacion);
         //Constructor normal y con los ultimos 2 tipos de datos como opcionales
