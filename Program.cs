@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreEscuela.Entidades;
 using static System.Console; //ESTO NOS PERMITE PODER UTILIZAR EL WRITELINE CONTENIDO EN SYSTEM.CONSOLE SIN TENER QUE ESCRIBIRLO TODO
 
@@ -12,14 +13,35 @@ namespace FundamentosCSharp
             var escuela = new Escuela("Platzi Academy", 2012, TiposEscuela.Primaria, ciudad: "Bogota", pais: "Colombia");
             escuela.TipoEscuela = TiposEscuela.Secundaria;
 
-            escuela.Cursos = new Curso[]{
-                new Curso(){ Nombre = "101"},
-                new Curso() {Nombre = "201"},
-                new Curso() {Nombre = "301"}
+            escuela.Cursos = new List<Curso>(){
+                new Curso() {Nombre = "101", Jornada = TiposJornada.Mañana},
+                new Curso() {Nombre = "201", Jornada = TiposJornada.Mañana},
+                new Curso() {Nombre = "301", Jornada = TiposJornada.Mañana}
             };
 
-            //imprimimos los valores de nuestros objetos
+            escuela.Cursos.Add(new Curso { Nombre = "102", Jornada = TiposJornada.Tarde });
+            escuela.Cursos.Add(new Curso { Nombre = "202", Jornada = TiposJornada.Tarde });
+
+            var otraColeccion = new List<Curso>(){
+                new Curso() {Nombre = "401", Jornada = TiposJornada.Mañana},
+                new Curso() {Nombre = "501", Jornada = TiposJornada.Mañana},
+                new Curso() {Nombre = "502", Jornada = TiposJornada.Tarde}
+            };
+
+            var tmp = new Curso{Nombre = "Vacacional", Jornada = TiposJornada.Noche};
+            escuela.Cursos.AddRange(otraColeccion);
+            escuela.Cursos.Add(tmp);
             imprimirCursosEscuela(escuela);
+            escuela.Cursos.RemoveAll(Predicado);//usando el metodo de un predicado/delegado para remover de la coleccion un elemento especifico
+            escuela.Cursos.RemoveAll(cur => cur.Nombre == "502");//usando una expresion lambda para eliminar los elementos de la coleccion que cumplan la condicion
+            WriteLine("=========================");
+            imprimirCursosEscuela(escuela);
+
+        }
+
+        private static bool Predicado(Curso curobj)
+        {
+            return curobj.Nombre == "301";
         }
 
         private static void imprimirCursosEscuela(Escuela escuela)
