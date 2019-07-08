@@ -3,22 +3,15 @@ using System.Collections.Generic;
 
 namespace CoreEscuela.Entidades
 {
-    public class Curso
+    public class Curso: ObjetoEscuelBase
     {
-        public string Nombre { get; set; }
-        public string UniqueId { get; private set; }
         public TiposJornada Jornada { get; set; }
         public List<Asignatura> Asignaturas{ get; set; }
         public List<Alumno> Alumnos{ get; set; }
         // public Curso() => UniqueId = Guid.NewGuid().ToString();
 
         public Curso(){
-            UniqueId = Guid.NewGuid().ToString();
             Alumnos = new List<Alumno>();
-        }
-
-        public override string ToString(){
-            return $"{Nombre} , {UniqueId}";
         }
     }
 }

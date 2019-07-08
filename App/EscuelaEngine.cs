@@ -5,14 +5,10 @@ using CoreEscuela.Entidades;
 
 namespace CoreEscuela
 {
-    public class EscuelaEngine
+    //el modificador de clase sealed nos india que esta clase puede ser instansiada, pero no heredada, es justo lo contrario al modificador de clase abstract
+    public sealed class EscuelaEngine
     {
         public Escuela Escuela { get; set; }
-
-        public EscuelaEngine()
-        {
-
-        }
 
         public void Inicilizar()
         {
@@ -27,7 +23,7 @@ namespace CoreEscuela
 
         private void CargarEvaluaciones()
         {
-            var lista = new List<Evaluaciones>();
+            var lista = new List<Evaluacion>();
             foreach (var curso in Escuela.Cursos)
             {
                 foreach (var asignatura in curso.Asignaturas)
@@ -38,13 +34,13 @@ namespace CoreEscuela
 
                         for (int i = 0; i < 5; i++)
                         {
-                            var ev = new Evaluaciones(){
+                            var ev = new Evaluacion(){
                                 Asignatura = asignatura,
                                 Nombre = $"{asignatura.Nombre} EV#{i + 1}",
-                                Nota = (float)(5 * rnd.NextDouble())
+                                Nota = (float)(5 * rnd.NextDouble()),
+                                Alumno =  alumno
                             };
-
-                            lista.Add(ev);
+                            alumno.Evaluaciones.Add(ev);
                         }
                     }
                 }
