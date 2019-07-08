@@ -72,6 +72,6 @@ namespace CoreEscuela
                 int cantRandom = rnd.Next(5, 20);
                 cur.Alumnos = GenerarAlumnosAlAzar(cantRandom);
             }
-        }   
+        }
     }
 }

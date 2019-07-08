@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CoreEscuela.Entidades;
+﻿using CoreEscuela.Entidades;
 using CoreEscuela.Util;
 using static System.Console; //ESTO NOS PERMITE PODER UTILIZAR EL WRITELINE CONTENIDO EN SYSTEM.CONSOLE SIN TENER QUE ESCRIBIRLO TODO
 
