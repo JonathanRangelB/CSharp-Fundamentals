@@ -15,7 +15,7 @@ namespace CoreEscuela
             Printer.WriteTitle("Bienvenidos a la Escuela");
             //cantidad es el 3er parametro, pero aqui esta como segundo, pero funciona porque tien el caracter ':'
             //que le indica a que parametro pertenece el valor que le estoy mandando, no importa el orden de los parametros
-            Printer.Beep(10000,cantidad:10);
+            // Printer.Beep(10000,cantidad:10);
             imprimirCursosEscuela(engine.Escuela);
         }
 
