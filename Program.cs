@@ -28,8 +28,12 @@ namespace CoreEscuela
             //     WriteLine(item as Asignatura); //retorna null si el item no es del tipo Asignatura, caso contrario regresara sus datos
             // }
             //engine.Escuela.LimpiarLugar();
+
+            //esta parte usa linq para recorrer la lista anterior y crear una nueva lista tomando en cuenta si el objeto,
+            //en este caso, es de tipo ILugar, podriamos cambiarlo a Alumno por ejemplo, y nos traeria solamente objetos de
+            //tipo Alumno
             var listaILugar = from obj in listaObjetos
-            where obj is ILugar
+            where obj is ILugar //si quitamos este where, nos va a dar un error silencioso, donde todo pasa bien, pero al final si hubi un error interno en la lista y se fue guardando en la misma
             select (ILugar)obj;
         }
 

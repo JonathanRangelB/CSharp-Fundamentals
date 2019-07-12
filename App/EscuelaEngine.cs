@@ -21,37 +21,13 @@ namespace CoreEscuela
 
         }
 
-        private void CargarEvaluaciones()
-        {
-            var lista = new List<Evaluacion>();
-            foreach (var curso in Escuela.Cursos)
-            {
-                foreach (var asignatura in curso.Asignaturas)
-                {
-                    foreach (var alumno in curso.Alumnos)
-                    {
-                        var rnd = new Random(System.Environment.TickCount);
-
-                        for (int i = 0; i < 5; i++)
-                        {
-                            var ev = new Evaluacion(){
-                                Asignatura = asignatura,
-                                Nombre = $"{asignatura.Nombre} EV#{i + 1}",
-                                Nota = (float)(5 * rnd.NextDouble()),
-                                Alumno =  alumno
-                            };
-                            alumno.Evaluaciones.Add(ev);
-                        }
-                    }
-                }
-            }
-        }
-
+        #region Generacion de datos al azar
         ///<SUMMARY>
         ///Regresa todos los objetos contenidos en el objeto escuela creado, como todos heredan de la clase ObjetoEscuelBase, se pueden meter en la lista por polimorfismo
         ///<SUMMARY>
-        public List<ObjetoEscuelBase> getObjetosEscuela(){
-            var listaObj =  new List<ObjetoEscuelBase>();
+        public List<ObjetoEscuelBase> getObjetosEscuela()
+        {
+            var listaObj = new List<ObjetoEscuelBase>();
             listaObj.Add(Escuela);
             listaObj.AddRange(Escuela.Cursos);
             foreach (var curso in Escuela.Cursos)
@@ -66,6 +42,19 @@ namespace CoreEscuela
             return listaObj;
         }
 
+        private List<Alumno> GenerarAlumnosAlAzar(int cantidad)
+        {
+            string[] nombre1 = { "Jonathan", "Elvia", "Maximiliano", "Mario", "Daniel", "Nerida", "Edgar", "Ivone" };
+            string[] nombre2 = { "Zarina", "Angel", "Cipriano", "Vega", "Silvana", "Teodoro", "Simon", "Alvin" };
+            string[] apellido1 = { "Ruiz", "Rangel", "Hernandez", "Monreal", "Uribe", "Trump", "Herrera", "Garcia" };
+            string[] apellido2 = { "Ruiz", "Rangel", "Hernandez", "Monreal", "Uribe", "Trump", "Herrera", "Garcia" };
+
+            //Implementacion de LINQ para unir las listas
+            var listaDeAlumnos = from n1 in nombre1 from n2 in nombre2 from a1 in apellido1 from a2 in apellido2 select new Alumno { Nombre = $"{n1} {n2} {a1} {a2}" };
+            return listaDeAlumnos.OrderBy(al => al.UniqueId).Take(cantidad).ToList();
+        }
+        #endregion
+        #region Cargar Datos
         private void CargarAsignaturas()
         {
             foreach (var curso in Escuela.Cursos)
@@ -79,18 +68,6 @@ namespace CoreEscuela
                 };
                 curso.Asignaturas = listaAsignaturas;
             }
-        }
-
-        private List<Alumno> GenerarAlumnosAlAzar( int cantidad)
-        {
-            string[] nombre1 = {"Jonathan","Elvia","Maximiliano","Mario","Daniel","Nerida","Edgar","Ivone"};
-            string[] nombre2 = {"Zarina","Angel","Cipriano","Vega","Silvana","Teodoro","Simon","Alvin"};
-            string[] apellido1 = {"Ruiz","Rangel","Hernandez","Monreal","Uribe","Trump","Herrera","Garcia"};
-            string[] apellido2 = {"Ruiz","Rangel","Hernandez","Monreal","Uribe","Trump","Herrera","Garcia"};
-
-            //Implementacion de LINQ para unir las listas
-            var listaDeAlumnos = from n1 in nombre1 from n2 in nombre2 from a1 in apellido1 from a2 in apellido2 select new Alumno{ Nombre = $"{n1} {n2} {a1} {a2}"};
-            return listaDeAlumnos.OrderBy(al => al.UniqueId).Take(cantidad).ToList();
         }
 
         private void CargarCursos()
@@ -109,5 +86,33 @@ namespace CoreEscuela
                 cur.Alumnos = GenerarAlumnosAlAzar(cantRandom);
             }
         }
+
+        private void CargarEvaluaciones()
+        {
+            var lista = new List<Evaluacion>();
+            foreach (var curso in Escuela.Cursos)
+            {
+                foreach (var asignatura in curso.Asignaturas)
+                {
+                    foreach (var alumno in curso.Alumnos)
+                    {
+                        var rnd = new Random(System.Environment.TickCount);
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            var ev = new Evaluacion()
+                            {
+                                Asignatura = asignatura,
+                                Nombre = $"{asignatura.Nombre} EV#{i + 1}",
+                                Nota = (float)(5 * rnd.NextDouble()),
+                                Alumno = alumno
+                            };
+                            alumno.Evaluaciones.Add(ev);
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
