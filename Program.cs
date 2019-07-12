@@ -1,4 +1,5 @@
-﻿using CoreEscuela.Entidades;
+﻿using System.Linq;
+using CoreEscuela.Entidades;
 using CoreEscuela.Util;
 using static System.Console; //ESTO NOS PERMITE PODER UTILIZAR EL WRITELINE CONTENIDO EN SYSTEM.CONSOLE SIN TENER QUE ESCRIBIRLO TODO
 
@@ -17,15 +18,19 @@ namespace CoreEscuela
             imprimirCursosEscuela(engine.Escuela);
             //regresa una lista de objetos de fifetentes tipos, pero como todos heredan de la clase base, son compatibles por polimorfismo
             var listaObjetos = engine.getObjetosEscuela();
-            foreach (var item in listaObjetos)
-            {
-                if (item is Curso) //valida si el item es del tipo curso, caso contrario no entra al cuerpo del if
-                {
-                    WriteLine(item.Nombre);
-                }
+            // foreach (var item in listaObjetos)
+            // {
+            //     if (item is Curso) //valida si el item es del tipo curso, caso contrario no entra al cuerpo del if
+            //     {
+            //         WriteLine(item.Nombre);
+            //     }
 
-                WriteLine(item as Asignatura); //retorna null si el item no es del tipo Asignatura, caso contrario regresara sus datos
-            }
+            //     WriteLine(item as Asignatura); //retorna null si el item no es del tipo Asignatura, caso contrario regresara sus datos
+            // }
+            //engine.Escuela.LimpiarLugar();
+            var listaILugar = from obj in listaObjetos
+            where obj is ILugar
+            select (ILugar)obj;
         }
 
         private static void imprimirCursosEscuela(Escuela escuela)
