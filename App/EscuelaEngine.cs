@@ -47,6 +47,25 @@ namespace CoreEscuela
             }
         }
 
+        ///<SUMMARY>
+        ///Regresa todos los objetos contenidos en el objeto escuela creado, como todos heredan de la clase ObjetoEscuelBase, se pueden meter en la lista por polimorfismo
+        ///<SUMMARY>
+        public List<ObjetoEscuelBase> getObjetosEscuela(){
+            var listaObj =  new List<ObjetoEscuelBase>();
+            listaObj.Add(Escuela);
+            listaObj.AddRange(Escuela.Cursos);
+            foreach (var curso in Escuela.Cursos)
+            {
+                listaObj.AddRange(curso.Asignaturas);
+                listaObj.AddRange(curso.Alumnos);
+                foreach (var alumno in curso.Alumnos)
+                {
+                    listaObj.AddRange(alumno.Evaluaciones);
+                }
+            }
+            return listaObj;
+        }
+
         private void CargarAsignaturas()
         {
             foreach (var curso in Escuela.Cursos)

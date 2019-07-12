@@ -13,5 +13,10 @@ namespace CoreEscuela.Entidades
         {
             UniqueId = Guid.NewGuid().ToString();
         }
+
+        //Sobre escribiendo este metodo nos dejara ver en el debugger el nombre y el ID de todos los objetos y no su tipo
+        public override string ToString(){
+            return $"{Nombre},{UniqueId}";
+        }
     }
 }

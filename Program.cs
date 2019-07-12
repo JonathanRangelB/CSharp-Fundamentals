@@ -15,6 +15,17 @@ namespace CoreEscuela
             //que le indica a que parametro pertenece el valor que le estoy mandando, no importa el orden de los parametros
             // Printer.Beep(10000,cantidad:10);
             imprimirCursosEscuela(engine.Escuela);
+            //regresa una lista de objetos de fifetentes tipos, pero como todos heredan de la clase base, son compatibles por polimorfismo
+            var listaObjetos = engine.getObjetosEscuela();
+            foreach (var item in listaObjetos)
+            {
+                if (item is Curso) //valida si el item es del tipo curso, caso contrario no entra al cuerpo del if
+                {
+                    WriteLine(item.Nombre);
+                }
+
+                WriteLine(item as Asignatura); //retorna null si el item no es del tipo Asignatura, caso contrario regresara sus datos
+            }
         }
 
         private static void imprimirCursosEscuela(Escuela escuela)
