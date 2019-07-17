@@ -21,25 +21,94 @@ namespace CoreEscuela
 
         }
 
+        
+
         #region Generacion de datos al azar
+        public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        ){
+            return getObjetosEscuela(out int dummy, out dummy, out dummy, out dummy);
+        }
+
+        public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
+            out int conteoEvaluaciones,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        ){
+            return getObjetosEscuela(out conteoEvaluaciones, out int dummy, out dummy, out dummy);
+        }
+
+        public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
+            out int conteoEvaluaciones,
+            out int conteoCursos,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        ){
+            return getObjetosEscuela(out conteoEvaluaciones, out conteoCursos, out int dummy, out dummy);
+        }
+
+        public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
+            out int conteoEvaluaciones,
+            out int conteoCursos,
+            out int conteoAsignaturas,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        ){
+            return getObjetosEscuela(out conteoEvaluaciones, out conteoCursos, out conteoAsignaturas, out int dummy);
+        }
+
         ///<SUMMARY>
         ///Regresa todos los objetos contenidos en el objeto escuela creado, como todos heredan de la clase ObjetoEscuelBase, se pueden meter en la lista por polimorfismo
+        ///Tambien, la firma del metodo nos indica que va a regresar 2 elementos, una lista y un entero si los ponemos entre parentesis, o tambien podemos tener valores
+        ///de salida con la palabra reservada out antes del tipo de dato en los parametros del metodo
         ///<SUMMARY>
-        public List<ObjetoEscuelBase> getObjetosEscuela()
+        public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
+            out int conteoEvaluaciones,
+            out int conteoCursos,
+            out int conteoAsignaturas,
+            out int conteoAlumnos,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        )
         {
+            conteoEvaluaciones = conteoAlumnos = conteoAsignaturas = 0;
             var listaObj = new List<ObjetoEscuelBase>();
             listaObj.Add(Escuela);
-            listaObj.AddRange(Escuela.Cursos);
+            if(traeCursos)
+                listaObj.AddRange(Escuela.Cursos);
+            conteoCursos = Escuela.Cursos.Count;
             foreach (var curso in Escuela.Cursos)
             {
-                listaObj.AddRange(curso.Asignaturas);
-                listaObj.AddRange(curso.Alumnos);
-                foreach (var alumno in curso.Alumnos)
+                if(traeAsignaturas){
+                    listaObj.AddRange(curso.Asignaturas);
+                    conteoAsignaturas += curso.Asignaturas.Count;
+                }
+                if(traeAlumnos){
+                    listaObj.AddRange(curso.Alumnos);
+                    conteoAlumnos += curso.Alumnos.Count;
+                }
+                if (traeEvaluaciones)
                 {
-                    listaObj.AddRange(alumno.Evaluaciones);
+                    foreach (var alumno in curso.Alumnos)
+                    {
+                        listaObj.AddRange(alumno.Evaluaciones);
+                        conteoEvaluaciones += alumno.Evaluaciones.Count;
+                    }
                 }
             }
-            return listaObj;
+            return listaObj.AsReadOnly(); //se puede regresar mas de 1 valor en un return si los metemos dentro de parentesis, se coloca como de solo lectura para evitar
+            //que otros programadores tengan acceso de escritura a un objeto que no deberia de ser modificado
         }
 
         private List<Alumno> GenerarAlumnosAlAzar(int cantidad)
