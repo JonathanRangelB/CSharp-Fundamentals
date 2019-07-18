@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoreEscuela.Entidades;
 using CoreEscuela.Util;
@@ -10,6 +11,8 @@ namespace CoreEscuela
     {
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += AccionDelEvento; //a;adimos al stack de eventos la funcion "AccionDelEvento", osea que los eventos son delegados
+            AppDomain.CurrentDomain.ProcessExit += (s,e) => Printer.Beep(2000,1000,1); //tambien se pueden anadir con expresiones lambda
             var engine = new EscuelaEngine();
             engine.Inicilizar();
             Printer.WriteTitle("Bienvenidos a la Escuela");
@@ -49,6 +52,13 @@ namespace CoreEscuela
             var dictmp = engine.getDiccionarioDeObjetos();
             engine.ImprimirDiccionario(dictmp,true);
 
+        }
+
+        private static void AccionDelEvento(object sender, EventArgs e)
+        {
+            Printer.WriteTitle("Saliendo");
+            Printer.Beep(3000,1000,3);
+            Printer.WriteTitle("Salio");
         }
 
         private static void imprimirCursosEscuela(Escuela escuela)
