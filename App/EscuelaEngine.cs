@@ -21,7 +21,38 @@ namespace CoreEscuela
 
         }
 
-        
+        public Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelBase>> getDiccionarioDeObjetos()
+        {
+            var diccionario = new Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelBase>>();
+            diccionario.Add(LlaveDiccionario.Escuela, new[] { Escuela });
+            diccionario.Add(LlaveDiccionario.Curso, Escuela.Cursos.Cast<ObjetoEscuelBase>());
+            var listaTmpeEv = new List<Evaluacion>();
+            var listaTmpAs = new List<Asignatura>();
+            var listaTmpAl = new List<Alumno>();
+            foreach (var cur in Escuela.Cursos)
+            {
+                listaTmpAs.AddRange(cur.Asignaturas);
+                listaTmpAl.AddRange(cur.Alumnos);
+                foreach (var alum in cur.Alumnos)
+                {
+                    listaTmpeEv.AddRange(alum.Evaluaciones);
+                }
+            }
+            diccionario.Add(LlaveDiccionario.Evaluacion, listaTmpeEv.Cast<ObjetoEscuelBase>());
+            diccionario.Add(LlaveDiccionario.Asignatura, listaTmpAs.Cast<ObjetoEscuelBase>());
+            diccionario.Add(LlaveDiccionario.Alumno, listaTmpAl.Cast<ObjetoEscuelBase>());
+            return diccionario;
+        }
+        public void ImprimirDiccionario(Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelBase>> dic){
+            foreach (var obj in dic)
+            {
+                System.Console.WriteLine(obj);
+                foreach (var val in obj.Value)
+                {
+                    System.Console.WriteLine(val);
+                }
+            }
+        }
 
         #region Generacion de datos al azar
         public IReadOnlyList<ObjetoEscuelBase> getObjetosEscuela(
@@ -29,7 +60,8 @@ namespace CoreEscuela
             bool traeAlumnos = true,
             bool traeAsignaturas = true,
             bool traeCursos = true
-        ){
+        )
+        {
             return getObjetosEscuela(out int dummy, out dummy, out dummy, out dummy);
         }
 
@@ -39,7 +71,8 @@ namespace CoreEscuela
             bool traeAlumnos = true,
             bool traeAsignaturas = true,
             bool traeCursos = true
-        ){
+        )
+        {
             return getObjetosEscuela(out conteoEvaluaciones, out int dummy, out dummy, out dummy);
         }
 
@@ -50,7 +83,8 @@ namespace CoreEscuela
             bool traeAlumnos = true,
             bool traeAsignaturas = true,
             bool traeCursos = true
-        ){
+        )
+        {
             return getObjetosEscuela(out conteoEvaluaciones, out conteoCursos, out int dummy, out dummy);
         }
 
@@ -62,7 +96,8 @@ namespace CoreEscuela
             bool traeAlumnos = true,
             bool traeAsignaturas = true,
             bool traeCursos = true
-        ){
+        )
+        {
             return getObjetosEscuela(out conteoEvaluaciones, out conteoCursos, out conteoAsignaturas, out int dummy);
         }
 
@@ -85,16 +120,18 @@ namespace CoreEscuela
             conteoEvaluaciones = conteoAlumnos = conteoAsignaturas = 0;
             var listaObj = new List<ObjetoEscuelBase>();
             listaObj.Add(Escuela);
-            if(traeCursos)
+            if (traeCursos)
                 listaObj.AddRange(Escuela.Cursos);
             conteoCursos = Escuela.Cursos.Count;
             foreach (var curso in Escuela.Cursos)
             {
-                if(traeAsignaturas){
+                if (traeAsignaturas)
+                {
                     listaObj.AddRange(curso.Asignaturas);
                     conteoAsignaturas += curso.Asignaturas.Count;
                 }
-                if(traeAlumnos){
+                if (traeAlumnos)
+                {
                     listaObj.AddRange(curso.Alumnos);
                     conteoAlumnos += curso.Alumnos.Count;
                 }
