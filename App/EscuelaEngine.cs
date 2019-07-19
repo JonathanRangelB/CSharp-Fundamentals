@@ -4,7 +4,7 @@ using System.Linq;
 using CoreEscuela.Entidades;
 using CoreEscuela.Util;
 
-namespace CoreEscuela
+namespace CoreEscuela.App
 {
     //el modificador de clase sealed nos india que esta clase puede ser instansiada, pero no heredada, es justo lo contrario al modificador de clase abstract
     public sealed class EscuelaEngine
@@ -25,7 +25,7 @@ namespace CoreEscuela
         public Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelBase>> getDiccionarioDeObjetos()
         {
             var diccionario = new Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelBase>>();
-            diccionario.Add(LlaveDiccionario.Escuela, new[] { Escuela });
+            //diccionario.Add(LlaveDiccionario.Escuela, new[] { Escuela });
             diccionario.Add(LlaveDiccionario.Curso, Escuela.Cursos.Cast<ObjetoEscuelBase>());
             var listaTmpeEv = new List<Evaluacion>();
             var listaTmpAs = new List<Asignatura>();
