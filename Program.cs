@@ -20,7 +20,9 @@ namespace CoreEscuela
             Printer.WriteTitle("Bienvenidos a la Escuela");
 
             var reporteador = new Reporteador(engine.getDiccionarioDeObjetos());
-            reporteador.GetListaEvaluaciones();
+            var eval = reporteador.GetListaEvaluaciones();
+            var asig = reporteador.GetListaAsignaturas();
+            var listaPromXAsig = reporteador.GetPromedioAlumnoPorAsignatura();
         }
 
         private static void AccionDelEvento(object sender, EventArgs e)
