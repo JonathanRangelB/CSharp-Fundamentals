@@ -12,7 +12,7 @@ namespace CoreEscuela
     {
         static void Main(string[] args)
         {
-            //AppDomain.CurrentDomain.ProcessExit += AccionDelEvento; //anadimos al stack de eventos "ProcessExit" la funcion "AccionDelEvento", osea que los eventos son delegados
+            AppDomain.CurrentDomain.ProcessExit += AccionDelEvento; //anadimos al stack de eventos "ProcessExit" la funcion "AccionDelEvento", osea que los eventos son delegados
             //AppDomain.CurrentDomain.ProcessExit += (s,e) => Printer.Beep(2000,1000,1); //tambien se pueden anadir con expresiones lambda
             //AppDomain.CurrentDomain.ProcessExit -= AccionDelEvento; //esto quita del stack de eventos "ProcessExit", entonces cuando termine el programa, el stack solo tendra 1 evento a ejecutar
             var engine = new EscuelaEngine();
@@ -23,12 +23,51 @@ namespace CoreEscuela
             var eval = reporteador.GetListaEvaluaciones();
             var asig = reporteador.GetListaAsignaturas();
             var listaPromXAsig = reporteador.GetPromedioAlumnoPorAsignatura();
+            string nombre, notastring;
+            float nota;
+
+            var newEval = new Evaluacion();
+            WriteLine("Ingrese el nombre de la evaluacion");
+            Printer.PresioneEnter();
+            nombre = ReadLine();
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                throw new ArgumentException("El valor del nombre no puede estar vacio");
+            }
+            else
+            {
+                newEval.Nombre = nombre.ToLower();
+                WriteLine("El nombre de la evalucaion ha sido ingresado correctamente");
+            }
+
+            WriteLine("Ingrese la nota de la evaluacion");
+            Printer.PresioneEnter();
+            notastring = ReadLine();
+            try
+            {
+                nota = float.Parse(notastring);
+                if (nota < 0 || nota > 5)
+                {
+                    throw new ArgumentOutOfRangeException("La nota debe ser entre 0.0 y 5.0");
+                }
+            }
+            catch (ArgumentOutOfRangeException aore)
+            {
+                System.Console.WriteLine(aore.Message);
+            }
+            catch (Exception)
+            {
+                Printer.WriteTitle("El valor de la nota no es un valor valido");
+            }
+            finally{
+                System.Console.WriteLine("Modulo Finally");
+            }
         }
 
         private static void AccionDelEvento(object sender, EventArgs e)
         {
             Printer.WriteTitle("Saliendo");
-            Printer.Beep(3000,1000,3);
+            //Printer.Beep(3000, 1000, 3);
             Printer.WriteTitle("Salio");
         }
 

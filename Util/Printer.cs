@@ -10,6 +10,11 @@ namespace CoreEscuela.Util
             WriteLine("".PadLeft(tamano,'='));
         }
 
+        public static void PresioneEnter() //si no me mandan nada como parametro, el tamano siempre sera 10
+        {
+            WriteLine("Presiones ENTER para continuar");
+        }
+
         public static void WriteTitle(string titulo) //si no me mandan nada como parametro, el tamano siempre sera 10
         {
             var tamano = titulo.Length + 4;
